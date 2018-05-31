@@ -1,5 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
+const env = require("dotenv").config();
+require("./models");
+
 
 // Initialize express
 const app = express();
@@ -7,12 +10,15 @@ const app = express();
 app.use(morgan("tiny"));
 
 // TODO Initialize Mongoose.
+const url = process.env.DB_URL;
+const assert = require('assert');
+const mongoose = require('mongoose');
+mongoose.connect(url)
+
+app.use(require("./routes"));
 // TODO Define a schema for Todo.
 
-// TODO Write your routes here. Interact with database as necessary.
-app.get("/", (req, res) => {
-  res.send({ message: "I'm alive!" });
-});
+
 
 // Listen to port 8080
-app.listen("8080");
+app.listen(process.env.DB_PORT);
