@@ -2,10 +2,11 @@ const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const passport = require("passport");
+const env = require("dotenv").config();
 
 require("./models");
 
-const url = 'mongodb://localhost/todoApp';
+const url = process.env.MONGO_URL;
 
 const app = express();
 
@@ -13,7 +14,6 @@ app.use(morgan("tiny"));
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 mongoose.connect(url);
 
