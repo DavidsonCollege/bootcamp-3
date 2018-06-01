@@ -1,0 +1,56 @@
+
+<h1>Todos</h1>
+
+<body>
+<p>
+  <form id="addForm" onsubmit="addtodo()">
+      Add a new task here!
+      <input type='text'>
+      <input type='submit' name='add'>
+
+  </form>
+
+  <% for(i = 0; i<res.length; i++) {%>
+    <li>
+    <form id="deleteForm" onsubmit="deletetodo()">
+    <p>Task: <%=res[i].description%> </p>
+    <p>Created on: <%=res[i].createdOn%></p>
+    <p>Completed on: <%=res[i].completedOn %> </p>
+    <input type='text' value= "<%= res[i]._id %>" >
+    Delete task here:
+    <input type = 'submit'>
+    </form>
+
+   </li>
+  <% } %>
+</p>
+
+</body>
+<script>
+
+
+function addtodo(){
+  var ele = document.getElementById("addForm");
+  desc = ele.elements[0].value;
+
+  fetch("/todo/add/", {
+      method:"post",
+      body: JSON.stringify({description: desc}),
+      headers: {"content-type": "application/json"},
+      credentials: "include"
+    })
+}
+
+function deletetodo(){
+  var ele = document.getElementById("deleteForm");
+  idnum = ele.elements[0].value;
+
+  fetch("/todo/delete/", {
+      method:"delete",
+      body: JSON.stringify({id: idnum}),
+      headers: {"content-type": "application/json"},
+      credentials: "include"
+    })
+}
+
+</script>
